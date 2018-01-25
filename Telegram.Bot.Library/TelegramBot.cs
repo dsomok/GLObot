@@ -70,7 +70,7 @@ namespace Telegram.Bot.Library
 
             this._telegramBot.OnCallbackQuery += Callback;
 
-            return title;
+            return null;
         }
 
 
@@ -86,7 +86,10 @@ namespace Telegram.Bot.Library
 
             var result = await this._commandExecutor.Execute(chatId, commandName, args);
 
-            await this.SendMessage(chatId, result);
+            if (!string.IsNullOrEmpty(result))
+            {
+                await this.SendMessage(chatId, result);
+            }
         }
 
         private void OnError(object sender, ReceiveErrorEventArgs receiveErrorEventArgs)

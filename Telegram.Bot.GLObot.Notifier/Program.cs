@@ -6,6 +6,7 @@ using Telegram.Bot.GLObot.Notifier.GLO;
 using Telegram.Bot.GLObot.Notifier.GLO.Checkins;
 using Telegram.Bot.GLObot.Notifier.GLO.Employees;
 using Telegram.Bot.GLObot.Notifier.GLO.Serialization;
+using Telegram.Bot.GLObot.Notifier.PredefinedEmployees;
 using Telegram.Bot.Library;
 
 namespace Telegram.Bot.GLObot.Notifier
@@ -16,7 +17,7 @@ namespace Telegram.Bot.GLObot.Notifier
         {
             var container = BuildDependencies(
                 botToken: "382577872:AAGzP16-emtd8TQTJka-KBfvjmctJDGGS7s",
-                pollingPeriod: TimeSpan.FromMinutes(1)
+                pollingPeriod: TimeSpan.FromMinutes(5)
             );
 
 
@@ -44,6 +45,8 @@ namespace Telegram.Bot.GLObot.Notifier
             builder.RegisterType<GLOOfficeTimePollerRegistry>().WithParameter(new NamedParameter("pollingPeriod", pollingPeriod)).SingleInstance();
             builder.RegisterType<GLOOfficeTimeClient>().SingleInstance();
             builder.RegisterType<Deserializer>().AsImplementedInterfaces().SingleInstance();
+            builder.RegisterType<PredefinedEmployeesRegistry>().SingleInstance();
+            builder.RegisterType<PredefinedEmployeesKeyboard>().SingleInstance();
             builder.RegisterModule<CommandsModule>();
             builder.RegisterModule(new TelegramBotModule(botToken));
 

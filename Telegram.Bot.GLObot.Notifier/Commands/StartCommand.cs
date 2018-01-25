@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot.GLObot.Notifier.Extensions;
 using Telegram.Bot.GLObot.Notifier.GLO;
+using Telegram.Bot.GLObot.Notifier.PredefinedEmployees;
 using Telegram.Bot.Library;
-using Telegram.Bot.Library.Commands;
 using Telegram.Bot.Library.Commands.Annotations;
 using Telegram.Bot.Library.Keyboard;
 
@@ -13,40 +14,39 @@ namespace Telegram.Bot.GLObot.Notifier.Commands
     class StartCommand : TokenSensitiveCommand
     {
         private readonly GLOOfficeTimeClient _officeTimeClient;
-
-        private readonly IDictionary<string, int> _knownEmployees = new Dictionary<string, int>
-        {
-            {"Игорь", 6583},
-            {"Министр", 5502},
-            {"Ден", 6579},
-            {"Саня", 6584},
-            {"Дима", 6499}
-        };
+        private readonly PredefinedEmployeesRegistry _predefinedEmployeesRegistry;
+        private readonly PredefinedEmployeesKeyboard _predefinedEmployeesKeyboard;
 
 
-
-        public StartCommand(TelegramBot bot, GLOOfficeTimeClient officeTimeClient)
+        public StartCommand(
+            TelegramBot bot, 
+            GLOOfficeTimeClient officeTimeClient, 
+            PredefinedEmployeesRegistry predefinedEmployeesRegistry, 
+            PredefinedEmployeesKeyboard predefinedEmployeesKeyboard
+        )
             : base(bot, officeTimeClient)
         {
             _officeTimeClient = officeTimeClient;
+            _predefinedEmployeesRegistry = predefinedEmployeesRegistry;
+            _predefinedEmployeesKeyboard = predefinedEmployeesKeyboard;
         }
 
 
 
         protected override Task<string> ExecuteTokenSensitiveInternal(long chatId)
         {
-            var rows = new[]
+            return this.Bot.ShowInlineKeyboard(chatId, "Choose Employee", this._predefinedEmployeesKeyboard.Keyboard, async employeeName =>
             {
-                new KeyboardRow(new[] {"Саня", "Игорь", "Ден"}),
-                new KeyboardRow(new[] {"Министр", "Дима"})
-            };
+                var employeeIds = employeeName != PredefinedEmployeesKeyboard.AllKey
+                    ? new List<int>{ this._predefinedEmployeesRegistry[employeeName] } 
+                    : this._predefinedEmployeesRegistry.Employees.Values.ToList();
 
-            return this.Bot.ShowInlineKeyboard(chatId, "Choose Employee", rows, async employeeName =>
-            {
-                var employeeId = this._knownEmployees[employeeName];
-                var checkinDetails = await this._officeTimeClient.WhenLastSeen(employeeId);
-
-                await this.Bot.SendEmployeeStatistics(chatId, employeeName, checkinDetails);
+                foreach (var employeeId in employeeIds)
+                {
+                    var name = this._predefinedEmployeesRegistry[employeeId];
+                    var checkinDetails = await this._officeTimeClient.WhenLastSeen(employeeId);
+                    await this.Bot.SendEmployeeStatistics(chatId, name, checkinDetails);
+                }
             });
         }
     }
