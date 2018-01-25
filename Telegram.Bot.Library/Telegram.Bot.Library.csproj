@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="Autofac">
+      <HintPath>C:\Users\denys.somok\.nuget\packages\autofac\4.6.2\lib\netstandard1.1\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Serilog">
+      <HintPath>C:\Users\denys.somok\.nuget\packages\serilog\2.5.0\lib\netstandard1.3\Serilog.dll</HintPath>
+    </Reference>
+    <Reference Include="Telegram.Bot">
+      <HintPath>C:\Users\denys.somok\.nuget\packages\telegram.bot\14.0.0-beta-342\lib\netstandard1.1\Telegram.Bot.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

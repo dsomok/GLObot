@@ -15,7 +15,7 @@ namespace Telegram.Bot.Examples.Echo
 {
     public static class Program
     {
-        private static readonly TelegramBotClient Bot = new TelegramBotClient("");
+        private static readonly TelegramBotClient Bot = new TelegramBotClient("338427880:AAFpE4ezsxmtVPKll8wQyqXDT2wSzBgfu4w");
         private static ConcurrentDictionary<long, string> _tokenDictionary = new ConcurrentDictionary<long, string>();
 
         public static void Main(string[] args)
