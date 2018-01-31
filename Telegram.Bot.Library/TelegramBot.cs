@@ -7,6 +7,7 @@ using Telegram.Bot.Library.Commands;
 using Telegram.Bot.Library.Keyboard;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Types.InlineKeyboardButtons;
 using Telegram.Bot.Types.ReplyMarkups;
 
 namespace Telegram.Bot.Library
@@ -50,7 +51,7 @@ namespace Telegram.Bot.Library
         {
             this._logger.Information("Showing keyboard with values {@Keyboard} to chat {ChatId}", rows.SelectMany(r => r.Values), chatId);
 
-            var inlineKeyboardButtons = rows.Select(r => r.Values.Select(InlineKeyboardButton.WithCallbackData));
+            var inlineKeyboardButtons = rows.Select(r => r.Values.Select(InlineKeyboardButton.WithCallbackData).ToArray()).ToArray();
 
             await this._telegramBot.SendTextMessageAsync(
                 new ChatId(chatId),
