@@ -6,7 +6,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using Telegram.Bot.Framework;
+using Telegram.Bot.Framework.Abstractions;
 using Telegram.Bot.GLObot.Notifier.Webhook.Commands;
+using Telegram.Bot.GLObot.Notifier.Webhook.GLO;
+using Telegram.Bot.GLObot.Notifier.Webhook.GLO.Serialization;
+using Telegram.Bot.GLObot.Notifier.Webhook.PredefinedEmployees;
 using Telegram.Bot.Library;
 
 namespace Telegram.Bot.GLObot.Notifier.Webhook
@@ -31,6 +35,9 @@ namespace Telegram.Bot.GLObot.Notifier.Webhook
         {
             services.AddTelegramBot<GloBot>(_configuration.GetSection("GloBot"))
                 .AddUpdateHandler<EchoCommand>()
+                .AddUpdateHandler<StartCommand>()
+                .AddUpdateHandler<SetTokenCommand>()
+                .AddUpdateHandler<EmployeeTrackHandler>()
                 .Configure();
         }
 
@@ -41,6 +48,8 @@ namespace Telegram.Bot.GLObot.Notifier.Webhook
                 app.UseDeveloperExceptionPage();
 
             logger.Information("Setting webhook for {BotName}...", nameof(GloBot));
+            app.ApplicationServices.GetRequiredService<IBotManager<GloBot>>();
+
             app.UseTelegramBotWebhook<GloBot>();
             logger.Information("Webhook is set for bot {BotName}",nameof(GloBot));
 
@@ -58,6 +67,11 @@ namespace Telegram.Bot.GLObot.Notifier.Webhook
             builder.RegisterModule(new TelegramBotModule("474477823:AAFMWjLjncdWzgTlgHaQs2qY1daz88sAQQg"));
             var logger = new LoggerConfiguration().CreateLogger();
             builder.RegisterInstance(logger).AsImplementedInterfaces().SingleInstance();
+            builder.RegisterType<GloOfficeTimeClient>().SingleInstance();
+            builder.RegisterType<PredefinedEmployeesRegistry>().SingleInstance();
+            builder.RegisterType<PredefinedEmployeesKeyboard>().SingleInstance();
+            builder.RegisterType<Deserializer>().AsImplementedInterfaces().SingleInstance();
+            //builder.RegisterInstance(_configuration).AsImplementedInterfaces().SingleInstance();
         }
     }
 }
