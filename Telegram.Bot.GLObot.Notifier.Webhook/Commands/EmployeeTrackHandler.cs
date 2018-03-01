@@ -43,7 +43,8 @@ namespace Telegram.Bot.GLObot.Notifier.Webhook.Commands
                 {
                     var name = _predefinedEmployeesRegistry[employeeId];
                     var checkinDetails = await _officeTimeClient.WhenLastSeen(employeeId);
-                    await bot.Client.SendEmployeeStatistics(update.CallbackQuery.Message.Chat.Id, name, checkinDetails);
+                    var checkinStats = await _officeTimeClient.TotalOfficeTimeToday(employeeId);
+                    await bot.Client.SendEmployeeStatistics(update.CallbackQuery.Message.Chat.Id, name, checkinDetails, checkinStats);
                 }
             }
             catch (Exception ex)

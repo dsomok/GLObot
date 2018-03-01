@@ -11,6 +11,7 @@ namespace Telegram.Bot.GLObot.Notifier.GLO.Serialization
     {
         IList<Employee> DeserializeEmployees(string json);
         CheckinDetails DeserializeCheckinDetails(string json);
+        IList<CheckinEvent> DeserializeCheckinsEvents(string json);
     }
 
     class Deserializer : IDeserializer
@@ -42,6 +43,11 @@ namespace Telegram.Bot.GLObot.Notifier.GLO.Serialization
                 direction: responseBody.direction == "in" ? CheckinDirection.In : CheckinDirection.Out,
                 timestamp: (string)responseBody.timestamp
             );
+        }
+
+        public IList<CheckinEvent> DeserializeCheckinsEvents(string json)
+        {
+            return CheckinEvent.FromJson(json);
         }
     }
 }

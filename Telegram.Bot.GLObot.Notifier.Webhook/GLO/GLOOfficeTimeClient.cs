@@ -102,6 +102,23 @@ namespace Telegram.Bot.GLObot.Notifier.Webhook.GLO
             return this._deserializer.DeserializeCheckinDetails(json);
         }
 
+        public async Task<CheckinStats> TotalOfficeTimeToday(int employeeId)
+        {
+            this.CheckToken();
+
+            var relativePath = $"events.php?zone=KBP&employeeId={employeeId}&from={TimeProvider.TodayMilliseconds}&till={TimeProvider.NowMilliseconds}";
+            var response = await this._httpClient.GetAsync(relativePath);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new InvalidOperationException($"Failed to get total office time for today for employee {employeeId}");
+            }
+
+            var json = await response.Content.ReadAsStringAsync();
+            List<CheckinEvent> checkinEvents = (List<CheckinEvent>)this._deserializer.DeserializeCheckinsEvents(json);
+
+            return new CheckinStatsCalculator(checkinEvents).Calculate();
+        }
 
 
         private void CheckToken()

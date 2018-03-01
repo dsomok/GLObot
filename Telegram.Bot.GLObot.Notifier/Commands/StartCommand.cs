@@ -45,7 +45,8 @@ namespace Telegram.Bot.GLObot.Notifier.Commands
                 {
                     var name = this._predefinedEmployeesRegistry[employeeId];
                     var checkinDetails = await this._officeTimeClient.WhenLastSeen(employeeId);
-                    await this.Bot.SendEmployeeStatistics(chatId, name, checkinDetails);
+                    var checkinStats = await this._officeTimeClient.TotalOfficeTimeToday(employeeId);
+                    await this.Bot.SendEmployeeStatistics(chatId, name, checkinDetails, checkinStats);
                 }
             });
         }
