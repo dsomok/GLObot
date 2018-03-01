@@ -20,9 +20,9 @@ namespace Telegram.Bot.GLObot.UnitTests.CheckinStatsCalculatorTests
         [Fact]
         public void ThreeOUTsInARowNotInWorkArea()
         {
-            var checkinEvents = CheckinEventsListPrimer2_60();
+            var checkinEvents = CheckinEventsListPrimer2_100();
             var result = new CheckinStatsCalculator(checkinEvents).Calculate();
-            result.WorkingTimeToday.TotalMinutes.ShouldBe(60);
+            result.WorkingTimeToday.TotalMinutes.ShouldBe(100);
         }
 
 
@@ -40,7 +40,7 @@ namespace Telegram.Bot.GLObot.UnitTests.CheckinStatsCalculatorTests
             };
         }
 
-        private List<CheckinEvent> CheckinEventsListPrimer2_60()
+        private List<CheckinEvent> CheckinEventsListPrimer2_100()
         {
             return new List<CheckinEvent>
             {

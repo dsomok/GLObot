@@ -15,34 +15,18 @@ namespace Telegram.Bot.GLObot.Notifier.Webhook.GLO.Checkins
         public CheckinStats Calculate()
         {
             TimeSpan workingTime;
-            byte teleportsCount = 0; //working wrong for now
+            byte teleportsCount = 0; //working wrong for now as its not clear how GLOT counts it
 
             CheckinDirection previousDirection = CheckinDirection.Out;
             DateTime previousTime = DateTime.MinValue;
             string previousLocation = null;  //cannot use locationId because of GLOT bug
-            bool previousIntervalOpened = false;
+
+            CheckinEvents.RemoveAll(x => x.Working == false);
 
             foreach (var checkinEvent in CheckinEvents)
             {
                 if (checkinEvent.Direction == CheckinDirection.In)
                 {
-                    if (!checkinEvent.Working)
-                    {
-                        if (previousIntervalOpened)
-                        {
-                            previousIntervalOpened = false;
-                            previousDirection = CheckinDirection.Out;
-                            //teleportsCount++;
-                        }
-                        continue;
-                    }
-
-                    if (previousDirection == CheckinDirection.In)
-                    {
-                       // teleportsCount++;
-                    }
-
-                    previousIntervalOpened = true;
                     previousTime = checkinEvent.TimeStamp;
                     previousLocation = checkinEvent.Area;
                     previousDirection = CheckinDirection.In;
@@ -51,12 +35,11 @@ namespace Telegram.Bot.GLObot.Notifier.Webhook.GLO.Checkins
 
                 if (checkinEvent.Direction == CheckinDirection.Out)
                 {
-                    if (previousDirection == CheckinDirection.In && checkinEvent.Area == previousLocation && checkinEvent.Working)
+                    if (previousDirection == CheckinDirection.In && checkinEvent.Area == previousLocation)
                     {
                         previousDirection = CheckinDirection.Out;
                         workingTime += checkinEvent.TimeStamp - previousTime;
                         previousTime = checkinEvent.TimeStamp;
-                        previousIntervalOpened = false;
                         continue;
                     }
 
@@ -66,10 +49,8 @@ namespace Telegram.Bot.GLObot.Notifier.Webhook.GLO.Checkins
                         previousDirection = CheckinDirection.Out;
                         continue;
                     }
-
-                    //previousIntervalOpened = false;
+                    
                     previousDirection = CheckinDirection.Out;
-                    //teleportsCount++;
                 }
 
             }
