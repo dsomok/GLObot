@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Telegram.Bot.GLObot.Notifier.Webhook.GLO.Checkins;
+using Telegram.Bot.Library.GLO.Checkins;
 using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.GLObot.Notifier.Webhook.Extensions

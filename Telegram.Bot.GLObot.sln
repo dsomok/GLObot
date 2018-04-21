@@ -3,13 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Telegram.Bot.GLObot.Notifier", "Telegram.Bot.GLObot.Notifier\Telegram.Bot.GLObot.Notifier.csproj", "{637DA722-6C03-42D5-8D7D-AC66C8F7B924}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Telegram.Bot.Library", "Telegram.Bot.Library\Telegram.Bot.Library.csproj", "{DD88766E-C3DA-4E67-B6A5-8A3AF5BCC9D5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Telegram.Bot.GLObot.Notifier.Webhook", "Telegram.Bot.GLObot.Notifier.Webhook\Telegram.Bot.GLObot.Notifier.Webhook.csproj", "{B6E7B4DB-F46B-47B9-A560-F57C5DDC4FDA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Telegram.Bot.GLObot.UnitTests", "Telegram.Bot.GLObot.UnitTests\Telegram.Bot.GLObot.UnitTests.csproj", "{EE137947-9ED4-4C3D-9B1D-A2383FA59BF7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Telegram.Bot.GLObot.UnitTests", "Telegram.Bot.GLObot.UnitTests\Telegram.Bot.GLObot.UnitTests.csproj", "{EE137947-9ED4-4C3D-9B1D-A2383FA59BF7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +15,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{637DA722-6C03-42D5-8D7D-AC66C8F7B924}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{637DA722-6C03-42D5-8D7D-AC66C8F7B924}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{637DA722-6C03-42D5-8D7D-AC66C8F7B924}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{637DA722-6C03-42D5-8D7D-AC66C8F7B924}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DD88766E-C3DA-4E67-B6A5-8A3AF5BCC9D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DD88766E-C3DA-4E67-B6A5-8A3AF5BCC9D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DD88766E-C3DA-4E67-B6A5-8A3AF5BCC9D5}.Release|Any CPU.ActiveCfg = Release|Any CPU

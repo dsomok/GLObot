@@ -2,9 +2,8 @@
 using System.Threading.Tasks;
 using Serilog;
 using Telegram.Bot.Framework.Abstractions;
-using Telegram.Bot.GLObot.Notifier.Webhook.GLO;
-using Telegram.Bot.GLObot.Notifier.Webhook.PredefinedEmployees;
 using Telegram.Bot.Library.Keyboard;
+using Telegram.Bot.Library.Services;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.InlineKeyboardButtons;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -13,22 +12,21 @@ namespace Telegram.Bot.GLObot.Notifier.Webhook.Commands
 {
     internal class StartCommand : TokenSensitiveCommand
     {
+        private readonly IEmployeesRegistry _employeesRegistry;
         private readonly ILogger _logger;
-        private readonly PredefinedEmployeesKeyboard _predefinedEmployeesKeyboard;
 
-        public StartCommand(GloOfficeTimeClient officeTimeClient,
-            PredefinedEmployeesKeyboard predefinedEmployeesKeyboard,
-            ILogger logger) : base("start", officeTimeClient)
+        public StartCommand(IGloOfficeTimeClient officeTimeClient,
+            ILogger logger, IEmployeesRegistry employeesRegistry) : base("start", officeTimeClient)
         {
             _logger = logger;
-            _predefinedEmployeesKeyboard = predefinedEmployeesKeyboard;
+            _employeesRegistry = employeesRegistry;
         }
 
         protected override async Task<UpdateHandlingResult> ExecuteTokenSensitiveInternal(Update update,
             CommandArgs args)
         {
             await ShowInlineKeyboard(update.Message.Chat.Id, "Choose Employee",
-                _predefinedEmployeesKeyboard.Keyboard);
+                _employeesRegistry.GetKeyboardRows(update.Message.Chat.Id).ToArray());
 
             return UpdateHandlingResult.Continue;
         }

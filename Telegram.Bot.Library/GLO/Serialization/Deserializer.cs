@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
-using Telegram.Bot.GLObot.Notifier.Webhook.GLO.Checkins;
-using Telegram.Bot.GLObot.Notifier.Webhook.GLO.Employees;
+using Telegram.Bot.Library.GLO.Checkins;
+using Telegram.Bot.Library.GLO.Employees;
+using Telegram.Bot.Library.GLO.Serialization.Types;
 
-namespace Telegram.Bot.GLObot.Notifier.Webhook.GLO.Serialization
+namespace Telegram.Bot.Library.GLO.Serialization
 {
     interface IDeserializer
     {

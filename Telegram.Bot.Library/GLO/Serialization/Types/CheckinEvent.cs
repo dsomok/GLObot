@@ -2,9 +2,10 @@
 using System.Globalization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Telegram.Bot.Library.GLO.Checkins;
 using J = Newtonsoft.Json.JsonPropertyAttribute;
 
-namespace Telegram.Bot.GLObot.Notifier.Webhook.GLO.Checkins
+namespace Telegram.Bot.Library.GLO.Serialization.Types
 {
     public class CheckinEvent : CheckinBase
     {

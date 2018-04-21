@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 
-namespace Telegram.Bot.GLObot.Notifier.Webhook.GLO.Checkins
+namespace Telegram.Bot.Library.GLO.Checkins
 {
     class GLOOfficeTimePoller : IDisposable
     {

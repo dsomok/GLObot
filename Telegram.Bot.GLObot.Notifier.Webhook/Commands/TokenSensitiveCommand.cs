@@ -1,16 +1,17 @@
 ﻿using System.Threading.Tasks;
 using Telegram.Bot.Framework;
 using Telegram.Bot.Framework.Abstractions;
-using Telegram.Bot.GLObot.Notifier.Webhook.GLO;
+using Telegram.Bot.Library.GLO;
+using Telegram.Bot.Library.Services;
 using Telegram.Bot.Types;
 
 namespace Telegram.Bot.GLObot.Notifier.Webhook.Commands
 {
     abstract class TokenSensitiveCommand : CommandBase<CommandArgs>
     {
-        protected readonly GloOfficeTimeClient _officeTimeClient;
+        protected readonly IGloOfficeTimeClient _officeTimeClient;
 
-        protected TokenSensitiveCommand(string name, GloOfficeTimeClient officeTimeClient) 
+        protected TokenSensitiveCommand(string name, IGloOfficeTimeClient officeTimeClient) 
             : base(name)
         {
             _officeTimeClient = officeTimeClient;

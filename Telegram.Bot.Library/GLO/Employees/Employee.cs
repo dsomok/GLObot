@@ -1,6 +1,6 @@
-﻿namespace Telegram.Bot.GLObot.Notifier.Webhook.GLO.Employees
+﻿namespace Telegram.Bot.Library.GLO.Employees
 {
-    class Employee
+    public class Employee
     {
         public Employee(int id, string name, string timestamp)
         {

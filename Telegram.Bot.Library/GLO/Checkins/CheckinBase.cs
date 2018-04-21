@@ -1,7 +1,7 @@
 ﻿using System;
 using J = Newtonsoft.Json.JsonPropertyAttribute;
 
-namespace Telegram.Bot.GLObot.Notifier.Webhook.GLO.Checkins
+namespace Telegram.Bot.Library.GLO.Checkins
 {
     public enum CheckinDirection
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Telegram.Bot.GLObot.Notifier.Webhook.GLO
+namespace Telegram.Bot.Library.GLO
 {
     public static class TimeProvider
     {

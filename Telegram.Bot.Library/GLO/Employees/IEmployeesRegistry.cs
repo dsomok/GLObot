@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Telegram.Bot.GLObot.Notifier.Webhook.GLO.Employees
+namespace Telegram.Bot.Library.GLO.Employees
 {
     interface IEmployeesRegistry
     {

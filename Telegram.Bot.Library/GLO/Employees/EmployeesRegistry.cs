@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Serilog;
 
-namespace Telegram.Bot.GLObot.Notifier.Webhook.GLO.Employees
+namespace Telegram.Bot.Library.GLO.Employees
 {
     class EmployeesRegistry : IEmployeesRegistry
     {

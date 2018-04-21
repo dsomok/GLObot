@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
-using Telegram.Bot.GLObot.Notifier.Webhook.GLO.Checkins;
-using Telegram.Bot.GLObot.Notifier.Webhook.GLO.Employees;
-using Telegram.Bot.GLObot.Notifier.Webhook.GLO.Serialization;
 using Telegram.Bot.Library.Exceptions;
+using Telegram.Bot.Library.GLO.Checkins;
+using Telegram.Bot.Library.GLO.Employees;
+using Telegram.Bot.Library.GLO.Serialization;
+using Telegram.Bot.Library.GLO.Serialization.Types;
+using Telegram.Bot.Library.Services;
 
-namespace Telegram.Bot.GLObot.Notifier.Webhook.GLO
+namespace Telegram.Bot.Library.GLO
 {
-    class GloOfficeTimeClient
+    class GloOfficeTimeClient : IGloOfficeTimeClient
     {
         private readonly IDeserializer _deserializer;
         private readonly HttpClient _httpClient;

@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Telegram.Bot.GLObot.Notifier.Webhook.GLO.Checkins
+namespace Telegram.Bot.Library.GLO.Checkins
 {
-    class CheckinDetails : CheckinBase
+    public class CheckinDetails : CheckinBase
     {
         public CheckinDetails(string area, TimeSpan secondsAgo, CheckinDirection direction, string timestamp) : base(area, direction, timestamp)
         {

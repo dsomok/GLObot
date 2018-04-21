@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot.Framework;
 using Telegram.Bot.Framework.Abstractions;
 using Telegram.Bot.GLObot.Notifier.Webhook.Extensions;
-using Telegram.Bot.GLObot.Notifier.Webhook.GLO;
-using Telegram.Bot.GLObot.Notifier.Webhook.PredefinedEmployees;
+using Telegram.Bot.Library.PredefinedEmployees;
+using Telegram.Bot.Library.Services;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
@@ -14,13 +12,13 @@ namespace Telegram.Bot.GLObot.Notifier.Webhook.Commands
 {
     internal class EmployeeTrackHandler : UpdateHandlerBase
     {
-        private readonly GloOfficeTimeClient _officeTimeClient;
-        private readonly PredefinedEmployeesRegistry _predefinedEmployeesRegistry;
+        private readonly IEmployeesRegistry _employeesRegistry;
+        private readonly IGloOfficeTimeClient _officeTimeClient;
 
-        public EmployeeTrackHandler(PredefinedEmployeesRegistry predefinedEmployeesRegistry,
-            GloOfficeTimeClient officeTimeClient)
+        public EmployeeTrackHandler(IEmployeesRegistry employeesRegistry,
+            IGloOfficeTimeClient officeTimeClient)
         {
-            _predefinedEmployeesRegistry = predefinedEmployeesRegistry;
+            _employeesRegistry = employeesRegistry;
             _officeTimeClient = officeTimeClient;
         }
 
@@ -32,25 +30,29 @@ namespace Telegram.Bot.GLObot.Notifier.Webhook.Commands
         public override async Task<UpdateHandlingResult> HandleUpdateAsync(IBot bot, Update update)
         {
             var employeeName = update.CallbackQuery.Data;
+            var chatId = update.CallbackQuery.Message.Chat.Id;
 
             var employeeIds = employeeName != PredefinedEmployeesKeyboard.AllKey
-                ? new List<int> {_predefinedEmployeesRegistry[employeeName]}
-                : _predefinedEmployeesRegistry.Employees.Values.ToList();
+                ? new[] {_employeesRegistry.GetEmployeeId(chatId, employeeName)}
+                : _employeesRegistry.GetAllEmployeeIds(chatId);
 
             try
             {
                 foreach (var employeeId in employeeIds)
                 {
-                    var name = _predefinedEmployeesRegistry[employeeId];
+                    var name = _employeesRegistry.GetEmployeeName(chatId, employeeId);
                     var checkinDetails = await _officeTimeClient.WhenLastSeen(employeeId);
                     var checkinStats = await _officeTimeClient.TotalOfficeTimeToday(employeeId);
-                    await bot.Client.SendEmployeeStatistics(update.CallbackQuery.Message.Chat.Id, name, checkinDetails, checkinStats);
+                    await bot.Client.SendEmployeeStatistics(chatId, name, checkinDetails,
+                        checkinStats);
                 }
             }
             catch (Exception ex)
             {
-                await bot.Client.SendTextMessageAsync(update.CallbackQuery.Message.Chat, $"{ex.Message}{Environment.NewLine}{ex.StackTrace}");
+                await bot.Client.SendTextMessageAsync(update.CallbackQuery.Message.Chat,
+                    $"{ex.Message}{Environment.NewLine}{ex.StackTrace}");
             }
+
             return await Task.FromResult(UpdateHandlingResult.Handled);
         }
     }
