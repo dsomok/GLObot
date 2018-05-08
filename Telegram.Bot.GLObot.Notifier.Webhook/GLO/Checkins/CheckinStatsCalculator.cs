@@ -55,7 +55,7 @@ namespace Telegram.Bot.GLObot.Notifier.Webhook.GLO.Checkins
                         continue;
                     }
 
-                    if (previousDirection == CheckinDirection.Out)
+                    if (previousDirection == CheckinDirection.Out && previousTime != DateTime.MinValue)
                     {
                         lostTeleportTime += checkinEvent.TimeStamp - previousTime;
                     }
