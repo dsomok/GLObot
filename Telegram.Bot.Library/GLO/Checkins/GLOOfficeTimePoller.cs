@@ -3,14 +3,14 @@ using System.Threading;
 
 namespace Telegram.Bot.Library.GLO.Checkins
 {
-    class GLOOfficeTimePoller : IDisposable
+    internal class GloOfficeTimePoller : IDisposable
     {
         private readonly TimeSpan _period;
         private readonly GloOfficeTimeClient _client;
         private readonly Action<CheckinDetails> _onNewTimestamp;
         private Timer _timer;
 
-        public GLOOfficeTimePoller(TimeSpan period, GloOfficeTimeClient client, Action<CheckinDetails> onNewTimestamp)
+        public GloOfficeTimePoller(TimeSpan period, GloOfficeTimeClient client, Action<CheckinDetails> onNewTimestamp)
         {
             _period = period;
             _client = client;

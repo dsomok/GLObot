@@ -8,14 +8,14 @@ using Telegram.Bot.Library.GLO.Serialization.Types;
 
 namespace Telegram.Bot.Library.GLO.Serialization
 {
-    interface IDeserializer
+    internal interface IDeserializer
     {
         IList<Employee> DeserializeEmployees(string json);
         CheckinDetails DeserializeCheckinDetails(string json);
         IList<CheckinEvent> DeserializeCheckinsEvents(string json);
     }
 
-    class Deserializer : IDeserializer
+    internal class Deserializer : IDeserializer
     {
         public IList<Employee> DeserializeEmployees(string json)
         {

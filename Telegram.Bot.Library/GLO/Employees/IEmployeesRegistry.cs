@@ -2,7 +2,7 @@
 
 namespace Telegram.Bot.Library.GLO.Employees
 {
-    interface IEmployeesRegistry
+    internal interface IEmployeesRegistry
     {
         Task PopulateEmployees();
         Employee GetEmployee(int id);

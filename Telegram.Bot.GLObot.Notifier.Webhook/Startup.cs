@@ -8,6 +8,7 @@ using Serilog;
 using Telegram.Bot.Framework;
 using Telegram.Bot.Framework.Abstractions;
 using Telegram.Bot.GLObot.Notifier.Webhook.Commands;
+using Telegram.Bot.Library;
 
 namespace Telegram.Bot.GLObot.Notifier.Webhook
 {
@@ -54,6 +55,7 @@ namespace Telegram.Bot.GLObot.Notifier.Webhook
             var logger = new LoggerConfiguration().CreateLogger();
             builder.RegisterInstance(logger).AsImplementedInterfaces().SingleInstance();
             builder.RegisterInstance(_configuration).AsImplementedInterfaces().SingleInstance();
+            builder.RegisterModule<BotModule>();
         }
     }
 }

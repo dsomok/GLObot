@@ -7,7 +7,7 @@ using J = Newtonsoft.Json.JsonPropertyAttribute;
 
 namespace Telegram.Bot.Library.GLO.Serialization.Types
 {
-    public class CheckinEvent : CheckinBase
+    internal class CheckinEvent : CheckinBase
     {
         [J("locationid")] public long Locationid { get; set; }
         [J("working")] public bool Working { get; set; }

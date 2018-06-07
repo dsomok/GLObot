@@ -1,8 +1,0 @@
-version: '3.4'
-
-services:
-  telegram.bot.globot.notifier.webhook:
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-    ports:
-      - "80"

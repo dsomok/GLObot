@@ -2,7 +2,7 @@
 
 namespace Telegram.Bot.Library.GLO
 {
-    public static class TimeUtility
+    internal static class TimeUtility
     {
         private static readonly DateTime s_intiailTime = new DateTime(1970, 1, 1);
 

@@ -7,7 +7,7 @@ using Serilog;
 
 namespace Telegram.Bot.Library.GLO.Employees
 {
-    class EmployeesRegistry : IEmployeesRegistry
+    internal class EmployeesRegistry : IEmployeesRegistry
     {
         private readonly GloOfficeTimeClient _client;
         private readonly ILogger _logger;

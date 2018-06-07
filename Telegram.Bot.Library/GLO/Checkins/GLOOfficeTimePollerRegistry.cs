@@ -3,14 +3,14 @@ using System.Collections.Concurrent;
 
 namespace Telegram.Bot.Library.GLO.Checkins
 {
-    class GLOOfficeTimePollerRegistry
+    internal class GloOfficeTimePollerRegistry
     {
         private readonly TimeSpan _pollingPeriod;
         private readonly GloOfficeTimeClient _client;
 
-        private readonly ConcurrentDictionary<int, GLOOfficeTimePoller> _registry = new ConcurrentDictionary<int, GLOOfficeTimePoller>();
+        private readonly ConcurrentDictionary<int, GloOfficeTimePoller> _registry = new ConcurrentDictionary<int, GloOfficeTimePoller>();
 
-        public GLOOfficeTimePollerRegistry(TimeSpan pollingPeriod, GloOfficeTimeClient client)
+        public GloOfficeTimePollerRegistry(TimeSpan pollingPeriod, GloOfficeTimeClient client)
         {
             _pollingPeriod = pollingPeriod;
             _client = client;
@@ -18,7 +18,7 @@ namespace Telegram.Bot.Library.GLO.Checkins
 
         public void StartPoller(int employeeId, Action<CheckinDetails> onNewTimestamp)
         {
-            var poller = new GLOOfficeTimePoller(this._pollingPeriod, this._client, onNewTimestamp);
+            var poller = new GloOfficeTimePoller(this._pollingPeriod, this._client, onNewTimestamp);
             poller.Start(employeeId);
 
             this._registry.AddOrUpdate(employeeId, poller, (id, oldPoller) => oldPoller);
@@ -26,7 +26,7 @@ namespace Telegram.Bot.Library.GLO.Checkins
 
         public void StopPoller(int employeeId)
         {
-            if (this._registry.TryRemove(employeeId, out GLOOfficeTimePoller poller))
+            if (this._registry.TryRemove(employeeId, out GloOfficeTimePoller poller))
             {
                 poller.Dispose();
             }

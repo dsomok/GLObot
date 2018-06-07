@@ -2,7 +2,7 @@
 
 namespace Telegram.Bot.Library.GLO
 {
-    public static class TimeProvider
+    internal static class TimeProvider
     {
         private static readonly Func<DateTime> s_timeFunc;
         static TimeProvider()

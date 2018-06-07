@@ -2,9 +2,14 @@ version: '3.4'
 
 services:
   globot:
-    image: ${DOCKER_REGISTRY}globot
+    image: "nalbandov/globot"
     build:
       context: .
       dockerfile: Telegram.Bot.GLObot.Notifier.Webhook/Dockerfile
+    environment:
+      - "GloBot:ApiToken=474477823:AAFMWjLjncdWzgTlgHaQs2qY1daz88sAQQg"
+      - "GloBot:BotUserName=vstest3e_bot"
+      - "GloBot:WebhookUrl=https://6781c77b.ngrok.io/bots/{bot}/webhook/{token}"
+      - "token"
     ports:
-     - 80
+     - 8443

@@ -5,7 +5,7 @@ using Telegram.Bot.Library.GLO.Serialization.Types;
 
 namespace Telegram.Bot.Library.GLO.Checkins
 {
-    public class CheckinStatsCalculator
+    internal class CheckinStatsCalculator
     {
         public List<CheckinEvent> CheckinEvents { get; set; }
         public CheckinStatsCalculator(List<CheckinEvent> checkinEvents)

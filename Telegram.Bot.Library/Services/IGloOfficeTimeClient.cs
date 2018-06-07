@@ -10,7 +10,7 @@ namespace Telegram.Bot.Library.Services
     {
         void SetToken(string token);
         void OnSetToken(Action action);
-        Task<IList<Employee>> GetEmployees();
+        //Task<IList<Employee>> GetEmployees();
         Task<CheckinDetails> WhenLastSeen(int employeeId);
         Task<CheckinStats> TotalOfficeTimeToday(int employeeId);
         bool IsTokenSet { get; }

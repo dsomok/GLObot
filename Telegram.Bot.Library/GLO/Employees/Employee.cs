@@ -1,6 +1,6 @@
 ﻿namespace Telegram.Bot.Library.GLO.Employees
 {
-    public class Employee
+    internal class Employee
     {
         public Employee(int id, string name, string timestamp)
         {

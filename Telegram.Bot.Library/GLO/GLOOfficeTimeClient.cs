@@ -12,7 +12,7 @@ using Telegram.Bot.Library.Services;
 
 namespace Telegram.Bot.Library.GLO
 {
-    class GloOfficeTimeClient : IGloOfficeTimeClient
+    internal class GloOfficeTimeClient : IGloOfficeTimeClient
     {
         private readonly IDeserializer _deserializer;
         private readonly HttpClient _httpClient;
@@ -20,15 +20,15 @@ namespace Telegram.Bot.Library.GLO
         private string _token;
         private readonly IList<Action> _onSetTokenActions = new List<Action>();
 
-        public GloOfficeTimeClient(IDeserializer deserializer, IConfiguration configuration)
+        public GloOfficeTimeClient(IDeserializer deserializer, BotConfiguration configuration)
         {
             _deserializer = deserializer;
             this._httpClient = new HttpClient
             {
-                BaseAddress = new Uri("https://portal-ua.globallogic.com/officetime/json/")
+                BaseAddress = new Uri(configuration.OfficeTimeConfiguration.Url)
             };
 
-            var preconfiguredToken = configuration["token"];
+            var preconfiguredToken = configuration.OfficeTimeConfiguration.AuthenticationToken;
             if (preconfiguredToken != null)
                 SetToken(preconfiguredToken);
         }
