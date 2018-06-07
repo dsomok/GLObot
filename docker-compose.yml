@@ -1,0 +1,10 @@
+version: '3.4'
+
+services:
+  globot:
+    image: ${DOCKER_REGISTRY}globot
+    build:
+      context: .
+      dockerfile: Telegram.Bot.GLObot.Notifier.Webhook/Dockerfile
+    ports:
+     - 80

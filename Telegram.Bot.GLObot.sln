@@ -9,7 +9,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Telegram.Bot.Library", "Tel
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Telegram.Bot.GLObot.Notifier.Webhook", "Telegram.Bot.GLObot.Notifier.Webhook\Telegram.Bot.GLObot.Notifier.Webhook.csproj", "{B6E7B4DB-F46B-47B9-A560-F57C5DDC4FDA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Telegram.Bot.GLObot.UnitTests", "Telegram.Bot.GLObot.UnitTests\Telegram.Bot.GLObot.UnitTests.csproj", "{EE137947-9ED4-4C3D-9B1D-A2383FA59BF7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Telegram.Bot.GLObot.UnitTests", "Telegram.Bot.GLObot.UnitTests\Telegram.Bot.GLObot.UnitTests.csproj", "{EE137947-9ED4-4C3D-9B1D-A2383FA59BF7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A40D09D3-E370-4DD9-B3B6-1327B80DF007}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
