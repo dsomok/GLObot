@@ -13,34 +13,53 @@ namespace Telegram.Bot.GLObot.UnitTests.CheckinStatsCalculatorTests
         [Fact]
         public void RealLifeScenario1()
         {
-            var checkinEvents = CheckinEventsListPrimer1();
+            var checkinEvents = CheckinEventsListPrimer1();  //Igor 2018\\/02\\/28
             var result = new CheckinStatsCalculator(checkinEvents).Calculate();
-            result.WorkingTimeToday.TotalMilliseconds.ShouldBe(17329000); //4:48:49 Igor 2018\\/02\\/28
+
+            result.WorkingTimeToday.TotalMilliseconds.ShouldBe(17329000); // 4:48:49  
+            result.TimeWithTeleports.TotalMilliseconds.ShouldBe(17370000); // +41sec teleports
         }
 
         [Fact]
         public void RealLifeScenario2()
         {
-            var checkinEvents = CheckinEventsListPrimer2();
+            var checkinEvents = CheckinEventsListPrimer2(); //Sasha   2018\\/02\\/28
             var result = new CheckinStatsCalculator(checkinEvents).Calculate();
-            result.WorkingTimeToday.TotalMilliseconds.ShouldBe(16661000); //4:37:31 Sasha   2018\\/02\\/28
+
+            result.WorkingTimeToday.TotalMilliseconds.ShouldBe(16661000);  // 4:37:31 
+            result.TimeWithTeleports.TotalMilliseconds.ShouldBe(21450000);  // +1:19:49 teleports
         }
 
         [Fact]
         public void RealLifeScenario3()
         {
-            var checkinEvents = CheckinEventsListPrimer3();
+            var checkinEvents = CheckinEventsListPrimer3();   //Den  2018\\/02\\/28
             var result = new CheckinStatsCalculator(checkinEvents).Calculate();
-            result.WorkingTimeToday.TotalMilliseconds.ShouldBe(17126000); //4:45:26 Den  2018\\/02\\/28
+
+            result.WorkingTimeToday.TotalMilliseconds.ShouldBe(17126000); //4:45:26 
+            result.TimeWithTeleports.TotalMilliseconds.ShouldBe(18162000); // +17:16 teleports
         }
 
         [Fact]
         public void RealLifeScenario4()
         {
-            var checkinEvents = CheckinEventsListPrimer4();
+            var checkinEvents = CheckinEventsListPrimer4();    //Dima  2018\\/03\\/01
             var result = new CheckinStatsCalculator(checkinEvents).Calculate();
-            result.WorkingTimeToday.TotalMilliseconds.ShouldBe(27979000); //07:46:19 Dima  2018\\/03\\/01
+
+            result.WorkingTimeToday.TotalMilliseconds.ShouldBe(27979000); //07:46:19 
+            result.TimeWithTeleports.TotalMilliseconds.ShouldBe(27979000); // +0sec teleports
         }
+
+        [Fact]
+        public void RealLifeScenario5()      
+        {
+            var checkinEvents = CheckinEventsListPrimer5();   //Igor  2018\/05\/04
+            var result = new CheckinStatsCalculator(checkinEvents).Calculate();
+
+            result.WorkingTimeToday.TotalMilliseconds.ShouldBe(15388000);  //4:16
+            result.TimeWithTeleports.TotalMilliseconds.ShouldBe(26596000);   // +3h:06 teleports
+        }
+
 
         private List<CheckinEvent> CheckinEventsListPrimer1()
         {
@@ -70,6 +89,13 @@ namespace Telegram.Bot.GLObot.UnitTests.CheckinStatsCalculatorTests
         {
             string teleportsCase =
                 "[{\"timestamp\":\"2018\\/03\\/01 11:48:26\",\"locationid\":165,\"direction\":\"out\",\"area\":\"G-club\",\"working\":false},\r\n{\"timestamp\":\"2018\\/03\\/01 11:54:17\",\"locationid\":95,\"direction\":\"in\",\"area\":\"Office KBP3-L\",\"working\":true},\r\n{\"timestamp\":\"2018\\/03\\/01 11:54:26\",\"locationid\":196,\"direction\":\"in\",\"area\":\"Location-KBP3L-Rubikon-R\",\"working\":false},\r\n{\"timestamp\":\"2018\\/03\\/01 12:27:42\",\"locationid\":196,\"direction\":\"out\",\"area\":\"Location-KBP3L-Rubikon-R\",\"working\":false},\r\n{\"timestamp\":\"2018\\/03\\/01 12:27:48\",\"locationid\":95,\"direction\":\"out\",\"area\":\"Office KBP3-L\",\"working\":true},\r\n{\"timestamp\":\"2018\\/03\\/01 12:28:59\",\"locationid\":165,\"direction\":\"in\",\"area\":\"G-club\",\"working\":false},\r\n{\"timestamp\":\"2018\\/03\\/01 12:38:29\",\"locationid\":165,\"direction\":\"out\",\"area\":\"G-club\",\"working\":false},\r\n{\"timestamp\":\"2018\\/03\\/01 12:43:36\",\"locationid\":95,\"direction\":\"in\",\"area\":\"Office KBP3-L\",\"working\":true},\r\n{\"timestamp\":\"2018\\/03\\/01 12:43:44\",\"locationid\":196,\"direction\":\"in\",\"area\":\"Location-KBP3L-Rubikon-R\",\"working\":false},\r\n{\"timestamp\":\"2018\\/03\\/01 13:36:45\",\"locationid\":196,\"direction\":\"out\",\"area\":\"Location-KBP3L-Rubikon-R\",\"working\":false},\r\n{\"timestamp\":\"2018\\/03\\/01 13:36:50\",\"locationid\":95,\"direction\":\"out\",\"area\":\"Office KBP3-L\",\"working\":true},\r\n{\"timestamp\":\"2018\\/03\\/01 13:36:50\",\"locationid\":95,\"direction\":\"out\",\"area\":\"Office KBP3-L\",\"working\":true},\r\n{\"timestamp\":\"2018\\/03\\/01 13:38:10\",\"locationid\":165,\"direction\":\"in\",\"area\":\"G-club\",\"working\":false},\r\n{\"timestamp\":\"2018\\/03\\/01 13:39:35\",\"locationid\":165,\"direction\":\"out\",\"area\":\"G-club\",\"working\":false},\r\n{\"timestamp\":\"2018\\/03\\/01 13:44:33\",\"locationid\":95,\"direction\":\"in\",\"area\":\"Office KBP3-L\",\"working\":true},\r\n{\"timestamp\":\"2018\\/03\\/01 13:44:41\",\"locationid\":196,\"direction\":\"in\",\"area\":\"Location-KBP3L-Rubikon-R\",\"working\":false},\r\n{\"timestamp\":\"2018\\/03\\/01 13:45:03\",\"locationid\":196,\"direction\":\"out\",\"area\":\"Location-KBP3L-Rubikon-R\",\"working\":false},\r\n{\"timestamp\":\"2018\\/03\\/01 13:47:10\",\"locationid\":196,\"direction\":\"in\",\"area\":\"Location-KBP3L-Rubikon-R\",\"working\":false},\r\n{\"timestamp\":\"2018\\/03\\/01 14:26:32\",\"locationid\":196,\"direction\":\"out\",\"area\":\"Location-KBP3L-Rubikon-R\",\"working\":false},\r\n{\"timestamp\":\"2018\\/03\\/01 14:26:49\",\"locationid\":95,\"direction\":\"out\",\"area\":\"Office KBP3-L\",\"working\":true},\r\n{\"timestamp\":\"2018\\/03\\/01 15:01:24\",\"locationid\":95,\"direction\":\"in\",\"area\":\"Office KBP3-L\",\"working\":true},\r\n{\"timestamp\":\"2018\\/03\\/01 15:01:31\",\"locationid\":196,\"direction\":\"in\",\"area\":\"Location-KBP3L-Rubikon-R\",\"working\":false},\r\n{\"timestamp\":\"2018\\/03\\/01 16:21:36\",\"locationid\":196,\"direction\":\"out\",\"area\":\"Location-KBP3L-Rubikon-R\",\"working\":false},\r\n{\"timestamp\":\"2018\\/03\\/01 16:21:43\",\"locationid\":95,\"direction\":\"out\",\"area\":\"Office KBP3-L\",\"working\":true},\r\n{\"timestamp\":\"2018\\/03\\/01 16:21:44\",\"locationid\":95,\"direction\":\"out\",\"area\":\"Office KBP3-L\",\"working\":true},\r\n{\"timestamp\":\"2018\\/03\\/01 16:22:59\",\"locationid\":165,\"direction\":\"in\",\"area\":\"G-club\",\"working\":false},\r\n{\"timestamp\":\"2018\\/03\\/01 16:24:33\",\"locationid\":165,\"direction\":\"out\",\"area\":\"G-club\",\"working\":false},\r\n{\"timestamp\":\"2018\\/03\\/01 16:28:30\",\"locationid\":95,\"direction\":\"in\",\"area\":\"Office KBP3-L\",\"working\":true},\r\n{\"timestamp\":\"2018\\/03\\/01 16:28:38\",\"locationid\":196,\"direction\":\"in\",\"area\":\"Location-KBP3L-Rubikon-R\",\"working\":false},\r\n{\"timestamp\":\"2018\\/03\\/01 16:28:57\",\"locationid\":196,\"direction\":\"out\",\"area\":\"Location-KBP3L-Rubikon-R\",\"working\":false},\r\n{\"timestamp\":\"2018\\/03\\/01 16:42:40\",\"locationid\":196,\"direction\":\"in\",\"area\":\"Location-KBP3L-Rubikon-R\",\"working\":false},\r\n{\"timestamp\":\"2018\\/03\\/01 18:18:37\",\"locationid\":196,\"direction\":\"out\",\"area\":\"Location-KBP3L-Rubikon-R\",\"working\":false},\r\n{\"timestamp\":\"2018\\/03\\/01 18:18:44\",\"locationid\":95,\"direction\":\"out\",\"area\":\"Office KBP3-L\",\"working\":true},\r\n{\"timestamp\":\"2018\\/03\\/01 18:19:57\",\"locationid\":165,\"direction\":\"in\",\"area\":\"G-club\",\"working\":false},\r\n{\"timestamp\":\"2018\\/03\\/01 18:21:06\",\"locationid\":165,\"direction\":\"out\",\"area\":\"G-club\",\"working\":false},\r\n{\"timestamp\":\"2018\\/03\\/01 18:25:50\",\"locationid\":95,\"direction\":\"in\",\"area\":\"Office KBP3-L\",\"working\":true},\r\n{\"timestamp\":\"2018\\/03\\/01 18:25:57\",\"locationid\":196,\"direction\":\"in\",\"area\":\"Location-KBP3L-Rubikon-R\",\"working\":false},\r\n{\"timestamp\":\"2018\\/03\\/01 20:01:14\",\"locationid\":196,\"direction\":\"out\",\"area\":\"Location-KBP3L-Rubikon-R\",\"working\":false},\r\n{\"timestamp\":\"2018\\/03\\/01 20:03:00\",\"locationid\":95,\"direction\":\"out\",\"area\":\"Office KBP3-L\",\"working\":true},\r\n{\"timestamp\":\"2018\\/03\\/01 20:04:14\",\"locationid\":165,\"direction\":\"in\",\"area\":\"G-club\",\"working\":false},\r\n{\"timestamp\":\"2018\\/03\\/01 20:04:53\",\"locationid\":165,\"direction\":\"out\",\"area\":\"G-club\",\"working\":false},\r\n{\"timestamp\":\"2018\\/03\\/01 20:10:31\",\"locationid\":95,\"direction\":\"in\",\"area\":\"Office KBP3-L\",\"working\":true},\r\n{\"timestamp\":\"2018\\/03\\/01 20:10:38\",\"locationid\":196,\"direction\":\"in\",\"area\":\"Location-KBP3L-Rubikon-R\",\"working\":false},\r\n{\"timestamp\":\"2018\\/03\\/01 21:00:00\",\"locationid\":196,\"direction\":\"out\",\"area\":\"Location-KBP3L-Rubikon-R\",\"working\":false},\r\n{\"timestamp\":\"2018\\/03\\/01 21:00:06\",\"locationid\":95,\"direction\":\"out\",\"area\":\"Office KBP3-L\",\"working\":true}]";
+
+            return CheckinEvent.FromJson(teleportsCase);
+        }
+
+        private List<CheckinEvent> CheckinEventsListPrimer5() 
+        {
+            string teleportsCase = "[{\"timestamp\":\"2018\\/05\\/04 11:47:57\",\"locationid\":108,\"direction\":\"in\",\"area\":\"Office KBP3-R\",\"working\":true},\r\n{\"timestamp\":\"2018\\/05\\/04 12:45:32\",\"locationid\":108,\"direction\":\"out\",\"area\":\"Office KBP3-R\",\"working\":true},\r\n{\"timestamp\":\"2018\\/05\\/04 12:45:58\",\"locationid\":116,\"direction\":\"in\",\"area\":\"Office KBP2-R\",\"working\":true},\r\n{\"timestamp\":\"2018\\/05\\/04 13:01:56\",\"locationid\":116,\"direction\":\"out\",\"area\":\"Office KBP2-R\",\"working\":true},\r\n{\"timestamp\":\"2018\\/05\\/04 13:02:22\",\"locationid\":108,\"direction\":\"in\",\"area\":\"Office KBP3-R\",\"working\":true},\r\n{\"timestamp\":\"2018\\/05\\/04 13:16:45\",\"locationid\":108,\"direction\":\"out\",\"area\":\"Office KBP3-R\",\"working\":true},\r\n{\"timestamp\":\"2018\\/05\\/04 13:17:05\",\"locationid\":116,\"direction\":\"in\",\"area\":\"Office KBP2-R\",\"working\":true},\r\n{\"timestamp\":\"2018\\/05\\/04 15:11:46\",\"locationid\":108,\"direction\":\"in\",\"area\":\"Office KBP3-R\",\"working\":true},\r\n{\"timestamp\":\"2018\\/05\\/04 17:01:15\",\"locationid\":108,\"direction\":\"out\",\"area\":\"Office KBP3-R\",\"working\":true},\r\n{\"timestamp\":\"2018\\/05\\/04 18:12:32\",\"locationid\":108,\"direction\":\"out\",\"area\":\"Office KBP3-R\",\"working\":true},\r\n{\"timestamp\":\"2018\\/05\\/04 18:21:00\",\"locationid\":98,\"direction\":\"in\",\"area\":\"Office SPD\",\"working\":true},\r\n{\"timestamp\":\"2018\\/05\\/04 18:21:50\",\"locationid\":108,\"direction\":\"in\",\"area\":\"Office KBP3-R\",\"working\":true},\r\n{\"timestamp\":\"2018\\/05\\/04 19:20:53\",\"locationid\":108,\"direction\":\"out\",\"area\":\"Office KBP3-R\",\"working\":true}]";
 
             return CheckinEvent.FromJson(teleportsCase);
         }
