@@ -5,7 +5,7 @@ services:
     image: "nalbandov/globot"
     build:
       context: .
-      dockerfile: Telegram.Bot.GLObot.Notifier.Webhook/Dockerfile
+      dockerfile: Dockerfile
     environment:
       - "GloBot:ApiToken=474477823:AAFMWjLjncdWzgTlgHaQs2qY1daz88sAQQg"
       - "GloBot:BotUserName=vstest3e_bot"
