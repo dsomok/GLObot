@@ -1,4 +1,4 @@
-version: '3.4'
+version: '2.1'
 
 services:
   globot:
@@ -14,11 +14,15 @@ services:
       - VIRTUAL_HOST
     ports:
      - 8443
+    volumes:
+     - "ssl_data:/etc/cert"
   web:
     image: globot/nginx
     build: 
-      context: ./Nginx/
-    depends_on:
-      - globot
+      context: ./nginx/
     ports:
-     - "86:86"
+     - "443:443"
+    volumes:
+     - "ssl_data:/etc/cert"
+volumes:
+  ssl_data:
