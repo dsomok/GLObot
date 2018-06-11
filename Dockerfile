@@ -1,6 +1,5 @@
 FROM microsoft/aspnetcore:2.0 AS base
 WORKDIR /app
-EXPOSE 80
 
 FROM microsoft/aspnetcore-build:2.0 AS build
 WORKDIR /src
@@ -18,3 +17,4 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app .
 ENTRYPOINT ["dotnet", "Telegram.Bot.GLObot.Notifier.Webhook.dll"]
+EXPOSE 8443

@@ -16,6 +16,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Dockerfile = Dockerfile
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Nginx", "Nginx", "{9926D797-FF0D-4D4D-AAB2-B56D7F87A404}"
+	ProjectSection(SolutionItems) = preProject
+		Nginx\Dockerfile = Nginx\Dockerfile
+		Nginx\nginx.conf = Nginx\nginx.conf
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +43,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9926D797-FF0D-4D4D-AAB2-B56D7F87A404} = {A40D09D3-E370-4DD9-B3B6-1327B80DF007}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D4A46E37-56B9-45B9-ADB0-C6E1A2F7367F}

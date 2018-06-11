@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   globot:
-    image: "nalbandov/globot"
+    image: "globot/bot"
     build:
       context: .
       dockerfile: Dockerfile
@@ -11,5 +11,14 @@ services:
       - "GloBot:BotUserName=vstest3e_bot"
       - "GloBot:WebhookUrl=https://6781c77b.ngrok.io/bots/{bot}/webhook/{token}"
       - "token"
+      - VIRTUAL_HOST
     ports:
      - 8443
+  web:
+    image: globot/nginx
+    build: 
+      context: ./Nginx/
+    depends_on:
+      - globot
+    ports:
+     - "86:86"
