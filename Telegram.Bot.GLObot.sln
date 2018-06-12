@@ -19,7 +19,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nginx", "nginx", "{9926D797-FF0D-4D4D-AAB2-B56D7F87A404}"
 	ProjectSection(SolutionItems) = preProject
 		Nginx\Dockerfile = Nginx\Dockerfile
-		nginx\generate-certificate.sh = nginx\generate-certificate.sh
+		nginx\entrypoint.sh = nginx\entrypoint.sh
 		Nginx\nginx.conf = Nginx\nginx.conf
 	EndProjectSection
 EndProject
