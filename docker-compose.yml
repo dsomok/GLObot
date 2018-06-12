@@ -9,10 +9,10 @@ services:
     environment:
       - "GloBot:ApiToken=474477823:AAFMWjLjncdWzgTlgHaQs2qY1daz88sAQQg"
       - "GloBot:BotUserName=vstest3e_bot"
-      - "GloBot:WebhookUrl=https://6781c77b.ngrok.io/bots/{bot}/webhook/{token}"
+      - "GloBot:WebhookUrl=https://${VIRTUAL_HOST}/bots/{bot}/webhook/{token}"
       - "GloBot:PathToCertificate=/etc/cert/cert.crt"
+      - "VIRTUAL_HOST"
       - "token"
-      - VIRTUAL_HOST
     ports:
      - 8443
     volumes:
@@ -26,6 +26,6 @@ services:
     volumes:
      - "ssl_data:/etc/cert"
     environment:
-     - VIRTUAL_HOST
+     - "VIRTUAL_HOST"
 volumes:
   ssl_data:
