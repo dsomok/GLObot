@@ -8,4 +8,4 @@ ADD entrypoint.sh /etc/nginx/entrypoint.sh
 
 WORKDIR /etc/nginx
 
-ENTRYPOINT ["/etc/nginx/entrypoint.sh"]
+CMD ["/etc/nginx/entrypoint.sh"]
