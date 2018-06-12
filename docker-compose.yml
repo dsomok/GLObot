@@ -10,7 +10,7 @@ services:
       - "GloBot:ApiToken=474477823:AAFMWjLjncdWzgTlgHaQs2qY1daz88sAQQg"
       - "GloBot:BotUserName=vstest3e_bot"
       - "GloBot:WebhookUrl=https://${VIRTUAL_HOST}/bots/{bot}/webhook/{token}"
-      - "GloBot:PathToCertificate=/etc/cert/cert.crt"
+      - "GloBot:PathToCertificate=/etc/cert/cert.pem"
       - "VIRTUAL_HOST"
       - "token"
     ports:
@@ -23,7 +23,7 @@ services:
       context: ./nginx/
     ports:
      - "443:443"
-     - "81:81"
+     - "80:81"
     volumes:
      - "ssl_data:/etc/cert"
     environment:
