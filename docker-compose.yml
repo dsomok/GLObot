@@ -3,9 +3,6 @@ version: '2.1'
 services:
   globot:
     image: "globot/bot"
-    build:
-      context: .
-      dockerfile: Dockerfile
     environment:
       - "GloBot:ApiToken=474477823:AAFMWjLjncdWzgTlgHaQs2qY1daz88sAQQg"
       - "GloBot:BotUserName=vstest3e_bot"
@@ -19,8 +16,6 @@ services:
      - "ssl_data:/etc/cert"
   web:
     image: globot/nginx
-    build: 
-      context: ./nginx/
     ports:
      - "443:443"
      - "80:81"

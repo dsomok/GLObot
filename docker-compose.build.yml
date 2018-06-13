@@ -1,0 +1,11 @@
+version: '2.1'
+
+services:
+  globot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+  web:
+    build: 
+      context: ./nginx/
