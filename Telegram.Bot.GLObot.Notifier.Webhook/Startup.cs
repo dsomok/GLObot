@@ -52,7 +52,7 @@ namespace Telegram.Bot.GLObot.Notifier.Webhook
 
         public void ConfigureContainer(ContainerBuilder builder)
         {
-            var logger = new LoggerConfiguration().CreateLogger();
+            var logger = new LoggerConfiguration().WriteTo.Console().CreateLogger();
             builder.RegisterInstance(logger).AsImplementedInterfaces().SingleInstance();
             builder.RegisterInstance(_configuration).AsImplementedInterfaces().SingleInstance();
             builder.RegisterModule<BotModule>();
