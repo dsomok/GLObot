@@ -10,7 +10,7 @@ namespace Telegram.Bot.GLObot.Notifier.Webhook.PredefinedEmployees
             this.Employees = new Dictionary<string, int>
             {
                 {"Игорь", 6583},
-                {"Министр", 5502},
+                {"Саша", 6703},
                 {"Ден", 6579},
                 {"Саня", 6584},
                 {"Дима", 6499}

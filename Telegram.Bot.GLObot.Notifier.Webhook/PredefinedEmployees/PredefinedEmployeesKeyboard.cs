@@ -9,7 +9,7 @@ namespace Telegram.Bot.GLObot.Notifier.Webhook.PredefinedEmployees
         public KeyboardRow[] Keyboard => new[]
         {
             new KeyboardRow(new[] {"Саня", "Игорь", "Ден"}),
-            new KeyboardRow(new[] {"Министр", "Дима"}),
+            new KeyboardRow(new[] {"Саша", "Дима"}),
             new KeyboardRow(new[] {AllKey})
         };
     }
