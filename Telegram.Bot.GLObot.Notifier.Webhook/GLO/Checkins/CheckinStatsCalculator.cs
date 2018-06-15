@@ -22,11 +22,16 @@ namespace Telegram.Bot.GLObot.Notifier.Webhook.GLO.Checkins
             string previousLocation = null;  //cannot use locationId because of GLOT bug
 
             CheckinEvents.RemoveAll(x => x.Working == false);
+            TimeSpan lostTeleportTime;
 
             foreach (var checkinEvent in CheckinEvents)
             {
                 if (checkinEvent.Direction == CheckinDirection.In)
                 {
+                    if (previousDirection == CheckinDirection.In)
+                    {
+                        lostTeleportTime += checkinEvent.TimeStamp - previousTime;
+                    }
                     previousTime = checkinEvent.TimeStamp;
                     previousLocation = checkinEvent.Area;
                     previousDirection = CheckinDirection.In;
@@ -49,13 +54,18 @@ namespace Telegram.Bot.GLObot.Notifier.Webhook.GLO.Checkins
                         previousDirection = CheckinDirection.Out;
                         continue;
                     }
-                    
+
+                    if (previousDirection == CheckinDirection.Out && previousTime != DateTime.MinValue)
+                    {
+                        lostTeleportTime += checkinEvent.TimeStamp - previousTime;
+                    }
+
                     previousDirection = CheckinDirection.Out;
                 }
 
             }
 
-            return new CheckinStats(workingTime, teleportsCount, CheckinEvents.FirstOrDefault()?.TimeStamp);
+            return new CheckinStats(workingTime, teleportsCount, lostTeleportTime, CheckinEvents.FirstOrDefault()?.TimeStamp);
         }
     }
 }
