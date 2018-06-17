@@ -1,16 +1,15 @@
 version: '2.1'
 
 services:
-  globot:
+  bot:
     image: "globot/bot"
     environment:
       - "GloBot:ApiToken=474477823:AAFMWjLjncdWzgTlgHaQs2qY1daz88sAQQg"
       - "GloBot:BotUserName=vstest3e_bot"
-      - "GloBot:PathToCertificate=/etc/cert/cert.pem"
       - "VIRTUAL_HOST"
       - "token"
     ports:
-     - 8443
+     - "8443:8443"
     volumes:
      - "ssl_data:/etc/cert"
   web:

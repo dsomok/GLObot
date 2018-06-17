@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using Serilog;
 using Telegram.Bot.Library.Exceptions;
 using Telegram.Bot.Library.GLO.Checkins;
 using Telegram.Bot.Library.GLO.Employees;
@@ -19,10 +20,12 @@ namespace Telegram.Bot.Library.GLO
 
         private string _token;
         private readonly IList<Action> _onSetTokenActions = new List<Action>();
+        private readonly ILogger _logger;
 
-        public GloOfficeTimeClient(IDeserializer deserializer, BotConfiguration configuration)
+        public GloOfficeTimeClient(IDeserializer deserializer, BotConfiguration configuration, ILogger logger)
         {
             _deserializer = deserializer;
+            _logger = logger;
             this._httpClient = new HttpClient
             {
                 BaseAddress = new Uri(configuration.OfficeTimeConfiguration.Url)
@@ -91,7 +94,7 @@ namespace Telegram.Bot.Library.GLO
         public async Task<CheckinDetails> WhenLastSeen(int employeeId)
         {
             this.CheckToken();
-
+            _logger.Information("Querying last seen info on employee {employeeId}", employeeId);
             var relativePath = $"last_seen.php?zone=KBP&employeeId={employeeId}";
             var response = await this._httpClient.GetAsync(relativePath);
 
@@ -101,6 +104,7 @@ namespace Telegram.Bot.Library.GLO
             }
 
             var json = await response.Content.ReadAsStringAsync();
+            _logger.Information("Received response on employee {employeeId}", employeeId);
             return this._deserializer.DeserializeCheckinDetails(json);
         }
 
@@ -108,6 +112,7 @@ namespace Telegram.Bot.Library.GLO
         {
             this.CheckToken();
 
+            _logger.Information("Querying total time on employee {employeeId}", employeeId);
             var relativePath = $"events.php?zone=KBP&employeeId={employeeId}&from={TimeProvider.TodayMilliseconds}&till={TimeProvider.NowMilliseconds}";
             var response = await this._httpClient.GetAsync(relativePath);
 
@@ -119,6 +124,7 @@ namespace Telegram.Bot.Library.GLO
             var json = await response.Content.ReadAsStringAsync();
             List<CheckinEvent> checkinEvents = (List<CheckinEvent>)this._deserializer.DeserializeCheckinsEvents(json);
 
+            _logger.Information("Received response on employee {employeeId}", employeeId);
             return new CheckinStatsCalculator(checkinEvents).Calculate();
         }
 
