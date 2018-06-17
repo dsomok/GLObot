@@ -18,7 +18,7 @@ namespace Telegram.Bot.Library
 
         public void EnsureConfigurationIsValid()
         {
-            var requiredKeys = new[] {"token", "Globot:ApiToken", "Globot:BotUserName", "Globot:WebhookUrl"};
+            var requiredKeys = new[] {"token", "Globot:ApiToken", "Globot:BotUserName", "VIRTUAL_HOST"};
             foreach (var requiredKey in requiredKeys)
                 if (_configuration[requiredKey] == null)
                     throw new ConfigurationErrorsException($"Configuration key {requiredKey} is required. Required parameters: {string.Join(", ", requiredKeys)}");

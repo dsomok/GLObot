@@ -28,7 +28,14 @@ namespace Telegram.Bot.GLObot.Notifier.Webhook
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTelegramBot<GloBot>(_configuration.GetSection("GloBot"))
+            var botConfiguration = _configuration.GetSection("GloBot");
+            services.AddTelegramBot<GloBot>(new BotOptions<GloBot>()
+                {
+                    ApiToken = botConfiguration["ApiToken"],
+                    BotUserName = botConfiguration["BotUserName"],
+                    PathToCertificate = botConfiguration["PathToCertificate"],
+                    WebhookUrl = $"https://{_configuration["VIRTUAL_HOST"]}/bots/{{bot}}/webhook/{{token}}"
+                })
                 .AddUpdateHandler<EchoCommand>()
                 .AddUpdateHandler<StartCommand>()
                 .AddUpdateHandler<SetTokenCommand>()
