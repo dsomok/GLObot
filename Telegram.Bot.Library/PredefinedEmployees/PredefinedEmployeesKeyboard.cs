@@ -8,10 +8,10 @@ namespace Telegram.Bot.Library.PredefinedEmployees
 
         internal static IReadOnlyDictionary<string, int> DefaultEmployees = new Dictionary<string, int>
         {
-            {"Игорь", 6583},
-            {"Министр", 5502},
-            {"Ден", 6579},
             {"Саня", 6584},
+            {"Игорь", 6583},
+            {"Ден", 6579},
+            {"Саша", 6703},
             {"Дима", 6499}
         };
     }

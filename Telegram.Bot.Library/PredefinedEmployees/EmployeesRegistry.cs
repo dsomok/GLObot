@@ -25,7 +25,7 @@ namespace Telegram.Bot.Library.PredefinedEmployees
             foreach (var employeeRecord in _employeeRecords[chatId])
             {
                 employeeRow.Add(employeeRecord.EmployeeName);
-                if (string.Join(',', employeeRow.ToArray()).Length > 15)
+                if (string.Join(',', employeeRow.ToArray()).Length > 12)
                 {
                     var keyboardRow = new KeyboardRow(employeeRow.ToArray());
                     employeeRow.Clear();
