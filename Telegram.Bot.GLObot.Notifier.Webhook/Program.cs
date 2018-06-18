@@ -3,6 +3,8 @@ using System.Net;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using Telegram.Bot.Library;
 
 namespace Telegram.Bot.GLObot.Notifier.Webhook
 {
@@ -10,7 +12,10 @@ namespace Telegram.Bot.GLObot.Notifier.Webhook
     {
         public static void Main(string[] args)
         {
-            BuildWebHost(args).Run();
+            var host = BuildWebHost(args);
+
+            host.Services.GetRequiredService<BotConfiguration>().EnsureConfigurationIsValid();
+            host.Run();
         }
 
         public static IWebHost BuildWebHost(string[] args)

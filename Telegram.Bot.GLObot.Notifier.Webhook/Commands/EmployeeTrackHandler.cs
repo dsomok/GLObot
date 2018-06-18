@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using Serilog;
 using Telegram.Bot.Framework;
 using Telegram.Bot.Framework.Abstractions;
 using Telegram.Bot.GLObot.Notifier.Webhook.Extensions;
-using Telegram.Bot.GLObot.Notifier.Webhook.GLO;
-using Telegram.Bot.GLObot.Notifier.Webhook.PredefinedEmployees;
+using Telegram.Bot.Library.PredefinedEmployees;
+using Telegram.Bot.Library.Services;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
@@ -14,13 +13,16 @@ namespace Telegram.Bot.GLObot.Notifier.Webhook.Commands
 {
     internal class EmployeeTrackHandler : UpdateHandlerBase
     {
-        private readonly GloOfficeTimeClient _officeTimeClient;
-        private readonly PredefinedEmployeesRegistry _predefinedEmployeesRegistry;
+        private readonly IEmployeesRegistry _employeesRegistry;
+        private readonly IGloOfficeTimeClient _officeTimeClient;
+        private readonly ILogger _logger;
 
-        public EmployeeTrackHandler(PredefinedEmployeesRegistry predefinedEmployeesRegistry,
-            GloOfficeTimeClient officeTimeClient)
+        public EmployeeTrackHandler(IEmployeesRegistry employeesRegistry,
+            IGloOfficeTimeClient officeTimeClient,
+            ILogger logger)
         {
-            _predefinedEmployeesRegistry = predefinedEmployeesRegistry;
+            _logger = logger;
+            _employeesRegistry = employeesRegistry;
             _officeTimeClient = officeTimeClient;
         }
 
@@ -32,25 +34,30 @@ namespace Telegram.Bot.GLObot.Notifier.Webhook.Commands
         public override async Task<UpdateHandlingResult> HandleUpdateAsync(IBot bot, Update update)
         {
             var employeeName = update.CallbackQuery.Data;
-
+            var chatId = update.CallbackQuery.Message.Chat.Id;
+            _logger.Information("Handling track command for employee {employees}", employeeName);
             var employeeIds = employeeName != PredefinedEmployeesKeyboard.AllKey
-                ? new List<int> {_predefinedEmployeesRegistry[employeeName]}
-                : _predefinedEmployeesRegistry.Employees.Values.ToList();
-
+                ? new[] {_employeesRegistry.GetEmployeeId(chatId, employeeName)}
+                : _employeesRegistry.GetAllEmployeeIds(chatId);
+            _logger.Information("Handling track command for employee(s) {employees}", string.Join(",", employeeIds));
             try
             {
                 foreach (var employeeId in employeeIds)
                 {
-                    var name = _predefinedEmployeesRegistry[employeeId];
+                    var name = _employeesRegistry.GetEmployeeName(chatId, employeeId);
                     var checkinDetails = await _officeTimeClient.WhenLastSeen(employeeId);
                     var checkinStats = await _officeTimeClient.TotalOfficeTimeToday(employeeId);
-                    await bot.Client.SendEmployeeStatistics(update.CallbackQuery.Message.Chat.Id, name, checkinDetails, checkinStats);
+                    await bot.Client.SendEmployeeStatistics(chatId, name, checkinDetails,
+                        checkinStats);
                 }
             }
             catch (Exception ex)
             {
-                await bot.Client.SendTextMessageAsync(update.CallbackQuery.Message.Chat, $"{ex.Message}{Environment.NewLine}{ex.StackTrace}");
+                _logger.Error(ex, "Failed to handle track command for employee(s) {employees}", string.Join(",", employeeIds));
+                await bot.Client.SendTextMessageAsync(update.CallbackQuery.Message.Chat,
+                    $"{ex.Message}{Environment.NewLine}{ex.StackTrace}");
             }
+            _logger.Information("Handled track command for employee(s) {employees}", string.Join(",", employeeIds));
             return await Task.FromResult(UpdateHandlingResult.Handled);
         }
     }

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Shouldly;
-using Telegram.Bot.GLObot.Notifier.Webhook.GLO.Checkins;
+using Telegram.Bot.Library.GLO.Checkins;
+using Telegram.Bot.Library.GLO.Serialization.Types;
 using Xunit;
 
 namespace Telegram.Bot.GLObot.UnitTests.CheckinStatsCalculatorTests

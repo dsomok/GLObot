@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Telegram.Bot.Framework;
 using Telegram.Bot.Framework.Abstractions;
-using Telegram.Bot.GLObot.Notifier.Webhook.GLO;
+using Telegram.Bot.Library.GLO;
+using Telegram.Bot.Library.Services;
 using Telegram.Bot.Types;
 
 namespace Telegram.Bot.GLObot.Notifier.Webhook.Commands
@@ -18,16 +16,17 @@ namespace Telegram.Bot.GLObot.Notifier.Webhook.Commands
 
     internal class SetTokenCommand : CommandBase<SetTokenCommandArgs>
     {
-        private readonly GloOfficeTimeClient _officeTimeClient;
-        public SetTokenCommand(GloOfficeTimeClient officeTimeClient) : base("setToken")
+        private readonly IGloOfficeTimeClient _officeTimeClient;
+
+        public SetTokenCommand(IGloOfficeTimeClient officeTimeClient) : base("setToken")
         {
             _officeTimeClient = officeTimeClient;
         }
 
         public override async Task<UpdateHandlingResult> HandleCommand(Update update, SetTokenCommandArgs args)
         {
-            var isTokenSet = this._officeTimeClient.IsTokenSet;
-            this._officeTimeClient.SetToken(args.ArgsInput);
+            var isTokenSet = _officeTimeClient.IsTokenSet;
+            _officeTimeClient.SetToken(args.ArgsInput);
 
             var replyText = isTokenSet
                 ? "Token was successfully updated."

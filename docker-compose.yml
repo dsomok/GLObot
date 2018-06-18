@@ -1,0 +1,22 @@
+version: '2.1'
+
+services:
+  bot:
+    image: "globot/bot"
+    ports:
+     - "8443:8443"
+    volumes:
+     - "ssl_data:/etc/cert"
+    env_file:
+     - .env
+  web:
+    image: globot/nginx
+    ports:
+     - "443:443"
+     - "80:81"
+    volumes:
+     - "ssl_data:/etc/cert"
+    env_file:
+     - .env
+volumes:
+  ssl_data:
