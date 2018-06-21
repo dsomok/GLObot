@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
+using Serilog.Sinks.SystemConsole.Themes;
 using Telegram.Bot.Framework;
 using Telegram.Bot.Framework.Abstractions;
 using Telegram.Bot.GLObot.Notifier.Webhook.Commands;
@@ -59,7 +60,7 @@ namespace Telegram.Bot.GLObot.Notifier.Webhook
 
         public void ConfigureContainer(ContainerBuilder builder)
         {
-            var logger = new LoggerConfiguration().WriteTo.Console().CreateLogger();
+            var logger = new LoggerConfiguration().WriteTo.Console(theme: AnsiConsoleTheme.Code).CreateLogger();
             builder.RegisterInstance(logger).AsImplementedInterfaces().SingleInstance();
             builder.RegisterInstance(_configuration).AsImplementedInterfaces().SingleInstance();
             builder.RegisterModule<BotModule>();

@@ -9,6 +9,7 @@ services:
      - "ssl_data:/etc/cert"
     env_file:
      - .env
+    tty: true
   web:
     image: globot/nginx
     ports:
