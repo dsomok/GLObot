@@ -1,7 +1,7 @@
-FROM microsoft/aspnetcore:2.0 AS base
+FROM microsoft/dotnet:aspnetcore-runtime AS base
 WORKDIR /app
 
-FROM microsoft/aspnetcore-build:2.0 AS build
+FROM microsoft/dotnet:sdk AS build
 WORKDIR /src
 COPY Telegram.Bot.GLObot.Notifier.Webhook/Telegram.Bot.GLObot.Notifier.Webhook.csproj Telegram.Bot.GLObot.Notifier.Webhook/
 COPY Telegram.Bot.Library/Telegram.Bot.Library.csproj Telegram.Bot.Library/
