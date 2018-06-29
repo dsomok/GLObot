@@ -15,7 +15,8 @@ namespace Telegram.Bot.Library.GLO.Checkins
 
         public CheckinStats Calculate()
         {
-            TimeSpan workingTime;
+            TimeSpan workingTime = TimeSpan.Zero;
+
             byte teleportsCount = 0; //working wrong for now as its not clear how GLOT counts it
 
             CheckinDirection previousDirection = CheckinDirection.Out;
@@ -23,7 +24,7 @@ namespace Telegram.Bot.Library.GLO.Checkins
             string previousLocation = null;  //cannot use locationId because of GLOT bug
 
             CheckinEvents.RemoveAll(x => x.Working == false);
-            TimeSpan lostTeleportTime;
+            TimeSpan lostTeleportTime = TimeSpan.Zero;
 
             foreach (var checkinEvent in CheckinEvents)
             {
