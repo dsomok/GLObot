@@ -12,7 +12,8 @@ namespace Telegram.Bot.Library.PredefinedEmployees
             {"Игорь", 6583},
             {"Ден", 6579},
             {"Саша", 6703},
-            {"Дима", 6499}
+            {"Дима", 6499},
+            {"Ира", 552 }
         };
     }
 }
