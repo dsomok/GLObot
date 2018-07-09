@@ -41,6 +41,7 @@ namespace Telegram.Bot.GLObot.Notifier.Webhook
                 .AddUpdateHandler<StartCommand>()
                 .AddUpdateHandler<SetTokenCommand>()
                 .AddUpdateHandler<EmployeeTrackHandler>()
+                .AddUpdateHandler<KeyboardMarkupCommand>()
                 .Configure();
         }
 

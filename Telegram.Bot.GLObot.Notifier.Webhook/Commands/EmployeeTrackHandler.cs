@@ -17,6 +17,8 @@ namespace Telegram.Bot.GLObot.Notifier.Webhook.Commands
         private readonly IGloOfficeTimeClient _officeTimeClient;
         private readonly ILogger _logger;
 
+        private bool _plainTextRequest;
+
         public EmployeeTrackHandler(IEmployeesRegistry employeesRegistry,
             IGloOfficeTimeClient officeTimeClient,
             ILogger logger)
@@ -28,13 +30,16 @@ namespace Telegram.Bot.GLObot.Notifier.Webhook.Commands
 
         public override bool CanHandleUpdate(IBot bot, Update update)
         {
-            return update.Type == UpdateType.CallbackQueryUpdate && update.CallbackQuery != null;
+            _plainTextRequest = update.Message.Text.StartsWith('#');
+            return update.Type == UpdateType.CallbackQueryUpdate && update.CallbackQuery != null || _plainTextRequest;
         }
 
         public override async Task<UpdateHandlingResult> HandleUpdateAsync(IBot bot, Update update)
         {
-            var employeeName = update.CallbackQuery.Data;
-            var chatId = update.CallbackQuery.Message.Chat.Id;
+            Chat chat = _plainTextRequest ? update.Message.Chat : update.CallbackQuery.Message.Chat;
+            string employeeName = _plainTextRequest ? update.Message.Text.TrimStart('#') : update.CallbackQuery.Data;
+            
+            var chatId = chat.Id;
             _logger.Information("Handling track command for employee {employees}", employeeName);
             var employeeIds = employeeName != PredefinedEmployeesKeyboard.AllKey
                 ? new[] {_employeesRegistry.GetEmployeeId(chatId, employeeName)}
@@ -54,7 +59,7 @@ namespace Telegram.Bot.GLObot.Notifier.Webhook.Commands
             catch (Exception ex)
             {
                 _logger.Error(ex, "Failed to handle track command for employee(s) {employees}", string.Join(",", employeeIds));
-                await bot.Client.SendTextMessageAsync(update.CallbackQuery.Message.Chat,
+                await bot.Client.SendTextMessageAsync(chat,
                     $"{ex.Message}{Environment.NewLine}{ex.StackTrace}");
             }
             _logger.Information("Handled track command for employee(s) {employees}", string.Join(",", employeeIds));

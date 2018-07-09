@@ -20,7 +20,7 @@ namespace Telegram.Bot.GLObot.Notifier.Webhook
         public override async Task HandleUnknownUpdate(Update update)
         {
             _logger.Warning("Unable to handle update {@Update}", update);
-            await Client.SendTextMessageAsync(update.Message.Chat.Id, "Unalbe to handle update", ParseMode.Markdown,
+            await Client.SendTextMessageAsync(update.Message.Chat.Id, "Unable to handle update. Try /keyboard or /start.", ParseMode.Markdown,
                 replyToMessageId: update.Message.MessageId);
         }
 

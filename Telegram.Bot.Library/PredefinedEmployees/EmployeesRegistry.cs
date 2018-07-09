@@ -2,6 +2,7 @@
 using System.Linq;
 using Telegram.Bot.Library.Keyboard;
 using Telegram.Bot.Library.Services;
+using Telegram.Bot.Types;
 
 namespace Telegram.Bot.Library.PredefinedEmployees
 {
@@ -37,6 +38,28 @@ namespace Telegram.Bot.Library.PredefinedEmployees
                 yield return new KeyboardRow(employeeRow.ToArray());
 
             yield return new KeyboardRow(new[] {PredefinedEmployeesKeyboard.AllKey});
+        }
+
+        public IEnumerable<KeyboardButton[]> GetKeyboardMarkup(long chatId)
+        {
+            if (!_employeeRecords.ContainsKey(chatId))
+                LoadRecords(chatId);
+            
+            var rows = new List<KeyboardButton[]>();
+            var cols = new List<KeyboardButton>();
+            int i =  0;
+            foreach (var employeeRecord in _employeeRecords[chatId])
+            {
+                i++;
+                cols.Add(new KeyboardButton($"#{employeeRecord.EmployeeName}"));
+                if (i % 3 != 0)
+                    continue;
+
+                rows.Add(cols.ToArray());
+                cols = new List<KeyboardButton>();
+            }
+
+            return rows;
         }
 
         public int GetEmployeeId(long chatId, string name)
