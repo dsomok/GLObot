@@ -32,5 +32,7 @@ namespace Telegram.Bot.Library.GLO.Checkins
                 return dateTime;
             }
         }
+
+        public string TimeStampFormated => TimeStamp.ToString("dd-MM-yyyy HH:mm:ss");
     }
 }

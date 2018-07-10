@@ -11,10 +11,10 @@ namespace Telegram.Bot.GLObot.Notifier.Webhook.Extensions
         {
             var direction = checkinDetails.Direction == CheckinDirection.In ? "entering" : "leaving";
             return bot.SendTextMessageAsync(chatId,
-                $"Employee *{name}* was last seen *{direction.ToUpperInvariant()}* _{checkinDetails.Area}_ at *{checkinDetails.TimeStamp}*" +
-                (checkinStats == null ? "" : $"\nWorking time today *{checkinStats.WorkingTimeToday}*.") +
-                (checkinStats == null ? "" : $"\nTotal time today *{checkinStats.TimeWithTeleports}*.") +
-                (checkinStats?.FirstCheckinToday == null ? "" : $"\nFirst checkin today *{checkinStats.FirstCheckinToday}*"),
+                $"Employee *{name}* was last seen *{direction.ToUpperInvariant()}* _{checkinDetails.Area}_ at *{checkinDetails.TimeStampFormated}*" +
+                (checkinStats == null ? "" : $"\nWorking time today *{checkinStats.WorkingTimeToday}*") +
+                (checkinStats == null ? "" : $"\nTotal time today *{checkinStats.TimeWithTeleports}*") +
+                (checkinStats?.FirstCheckinToday == null ? "" : $"\nFirst checkin today *{checkinStats.FirstCheckinFormated}*"),
                 ParseMode.Markdown);
         }
     }
