@@ -17,8 +17,6 @@ namespace Telegram.Bot.GLObot.Notifier.Webhook.Commands
         private readonly IGloOfficeTimeClient _officeTimeClient;
         private readonly ILogger _logger;
 
-        private bool _plainTextRequest;
-
         public EmployeeTrackHandler(IEmployeesRegistry employeesRegistry,
             IGloOfficeTimeClient officeTimeClient,
             ILogger logger)
@@ -30,14 +28,15 @@ namespace Telegram.Bot.GLObot.Notifier.Webhook.Commands
 
         public override bool CanHandleUpdate(IBot bot, Update update)
         {
-            _plainTextRequest = update.Message.Text.StartsWith('#');
-            return update.Type == UpdateType.CallbackQueryUpdate && update.CallbackQuery != null || _plainTextRequest;
+            var plainTextRequest = update.Message.Text.StartsWith('#');
+            return update.Type == UpdateType.CallbackQueryUpdate && update.CallbackQuery != null || plainTextRequest;
         }
 
         public override async Task<UpdateHandlingResult> HandleUpdateAsync(IBot bot, Update update)
         {
-            Chat chat = _plainTextRequest ? update.Message.Chat : update.CallbackQuery.Message.Chat;
-            string employeeName = _plainTextRequest ? update.Message.Text.TrimStart('#') : update.CallbackQuery.Data;
+            var plainTextRequest = update.Message.Text.StartsWith('#');
+            Chat chat = plainTextRequest ? update.Message.Chat : update.CallbackQuery.Message.Chat;
+            string employeeName = plainTextRequest ? update.Message.Text.TrimStart('#') : update.CallbackQuery.Data;
             
             var chatId = chat.Id;
             _logger.Information("Handling track command for employee {employees}", employeeName);

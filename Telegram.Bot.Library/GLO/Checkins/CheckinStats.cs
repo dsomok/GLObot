@@ -17,5 +17,7 @@ namespace Telegram.Bot.Library.GLO.Checkins
         public TimeSpan LostTeleportTime { get; }
 
         public TimeSpan TimeWithTeleports => WorkingTimeToday + LostTeleportTime;
+
+        public string FirstCheckinFormated => FirstCheckinToday.HasValue ? ((DateTime) FirstCheckinToday).ToString("HH:mm:ss") : "";
     }
 }
