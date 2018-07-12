@@ -32,5 +32,19 @@ namespace Telegram.Bot.GLObot.UnitTests.CheckinStatsCalculatorTests
             result.LastCheckin.Direction.ShouldBe(CheckinDirection.In);
             result.LastCheckin.Area.ShouldBe("Office KBP3-R");
         }
+
+        [Fact]
+        public void InNotWorkingArea()
+        {
+            var checkinEvents = new List<CheckinEvent>
+            {
+                new CheckinEvent("G-club", CheckinDirection.In, "2018/02/27 11:00:00", 0, false, "")
+            };
+            var result = new CheckinStatsCalculator(checkinEvents).Calculate();
+            result.LastCheckin.ShouldNotBeNull();
+            result.LastCheckin.Timestamp.ShouldBe("2018/02/27 11:00:00");
+            result.LastCheckin.Direction.ShouldBe(CheckinDirection.In);
+            result.LastCheckin.Area.ShouldBe("G-club");
+        }
     }
 }

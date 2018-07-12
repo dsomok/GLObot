@@ -15,6 +15,21 @@ namespace Telegram.Bot.Library.GLO.Checkins
 
         public CheckinStats Calculate()
         {
+            CheckinDetails lastCheckin = null;
+
+            var lastCheckinEvent = CheckinEvents.Where(e => string.IsNullOrEmpty(e.Comment))
+                                                .OrderByDescending(e => e.TimeStamp)
+                                                .FirstOrDefault();
+            if (lastCheckinEvent != null)
+            {
+                lastCheckin = new CheckinDetails(
+                    area: lastCheckinEvent.Area,
+                    secondsAgo: DateTime.UtcNow.AddHours(2) - lastCheckinEvent.TimeStamp,
+                    direction: lastCheckinEvent.Direction,
+                    timestamp: lastCheckinEvent.Timestamp
+                );
+            }
+
             TimeSpan workingTime = TimeSpan.Zero;
 
             byte teleportsCount = 0; //working wrong for now as its not clear how GLOT counts it
@@ -65,21 +80,6 @@ namespace Telegram.Bot.Library.GLO.Checkins
                     previousDirection = CheckinDirection.Out;
                 }
 
-            }
-
-            CheckinDetails lastCheckin = null;
-
-            var lastCheckinEvent = CheckinEvents.Where(e => string.IsNullOrEmpty(e.Comment))
-                                           .OrderByDescending(e => e.TimeStamp)
-                                           .FirstOrDefault();
-            if (lastCheckinEvent != null)
-            {
-                lastCheckin = new CheckinDetails(
-                    area: lastCheckinEvent.Area,
-                    secondsAgo: DateTime.UtcNow.AddHours(2) - lastCheckinEvent.TimeStamp,
-                    direction: lastCheckinEvent.Direction,
-                    timestamp: lastCheckinEvent.Timestamp
-                );
             }
 
             return new CheckinStats(workingTime, teleportsCount, lostTeleportTime, CheckinEvents.FirstOrDefault()?.TimeStamp, lastCheckin);
