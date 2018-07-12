@@ -67,7 +67,22 @@ namespace Telegram.Bot.Library.GLO.Checkins
 
             }
 
-            return new CheckinStats(workingTime, teleportsCount, lostTeleportTime, CheckinEvents.FirstOrDefault()?.TimeStamp);
+            CheckinDetails lastCheckin = null;
+
+            var lastCheckinEvent = CheckinEvents.Where(e => string.IsNullOrEmpty(e.Comment))
+                                           .OrderByDescending(e => e.TimeStamp)
+                                           .FirstOrDefault();
+            if (lastCheckinEvent != null)
+            {
+                lastCheckin = new CheckinDetails(
+                    area: lastCheckinEvent.Area,
+                    secondsAgo: DateTime.UtcNow.AddHours(2) - lastCheckinEvent.TimeStamp,
+                    direction: lastCheckinEvent.Direction,
+                    timestamp: lastCheckinEvent.Timestamp
+                );
+            }
+
+            return new CheckinStats(workingTime, teleportsCount, lostTeleportTime, CheckinEvents.FirstOrDefault()?.TimeStamp, lastCheckin);
         }
     }
 }
