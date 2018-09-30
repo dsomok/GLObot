@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Serilog;
 using Telegram.Bot.Library.Exceptions;
+using Telegram.Bot.Library.Extensions;
 using Telegram.Bot.Library.GLO.Checkins;
 using Telegram.Bot.Library.GLO.Employees;
 using Telegram.Bot.Library.GLO.Serialization;
@@ -114,11 +116,16 @@ namespace Telegram.Bot.Library.GLO
 
             _logger.Information("Querying total time on employee {employeeId}", employeeId);
             var relativePath = $"events.php?zone=KBP&employeeId={employeeId}&from={TimeProvider.TodayMilliseconds}&till={TimeProvider.NowMilliseconds}";
-            var response = await this._httpClient.GetAsync(relativePath);
 
-            if (!response.IsSuccessStatusCode)
+            HttpResponseMessage response;
+            using (var taskCTS = new CancellationTokenSource())
             {
-                throw new InvalidOperationException($"Failed to get total office time for today for employee {employeeId}");
+                response = await this._httpClient.GetAsync(relativePath, taskCTS.Token).TimeoutAfter(TimeSpan.FromSeconds(6), taskCTS);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new InvalidOperationException($"Failed to get total office time for today for employee {employeeId}");
+                }
             }
 
             var json = await response.Content.ReadAsStringAsync();
