@@ -1,0 +1,1 @@
+[![Build status](https://alexnalbandov.visualstudio.com/_apis/public/build/definitions/f32665ae-d113-43dc-9b66-6f046094f8a4/13/badge)](https://alexnalbandov.visualstudio.com/GLOBot/_build/latest?definitionId=13&branch=master)

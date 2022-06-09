@@ -49,10 +49,14 @@ namespace Telegram.Bot.GLObot.Notifier.Webhook.Commands
                 foreach (var employeeId in employeeIds)
                 {
                     var name = _employeesRegistry.GetEmployeeName(chatId, employeeId);
-                    var checkinDetails = await _officeTimeClient.WhenLastSeen(employeeId);
                     var checkinStats = await _officeTimeClient.TotalOfficeTimeToday(employeeId);
-                    await bot.Client.SendEmployeeStatistics(chatId, name, checkinDetails,
-                        checkinStats);
+                    if (checkinStats.LastCheckin == null)
+                    {
+                        var checkinDetails = await _officeTimeClient.WhenLastSeen(employeeId);
+                        checkinStats.UpdateLastCheckin(checkinDetails);
+                    }
+
+                    await bot.Client.SendEmployeeStatistics(chatId, name, checkinStats);
                 }
             }
             catch (Exception ex)
